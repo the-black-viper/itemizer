@@ -22,9 +22,13 @@ class DetailWindow(QWidget):
         self.question_edit = self.create_line_edit(322, 332, 3)
         self.choices_edit = self.create_line_edit(322, 397, 3)
         
+        self.create_submit_button()
+
         # Go to the next line edit if enter/return is pressed
         self.examinee_edit.returnPressed.connect(lambda: self.question_edit.setFocus())
         self.question_edit.returnPressed.connect(lambda: self.choices_edit.setFocus())
+
+
 
     def create_line_edit(self, x, y, max_length, width=None, height=None):
         ''' Returns a line edit using positional arguments '''
@@ -46,3 +50,33 @@ class DetailWindow(QWidget):
         line_edit.move(x, y)
 
         return line_edit
+
+    def create_submit_button(self):
+        self.submit = QPushButton("Submit", self)
+        self.submit.setFont(font.set_font('Roboto', size=18, face='Medium'))
+        self.submit.setObjectName("submitButton")
+        self.submit.setStyleSheet(self.set_style())
+        self.submit.clicked.connect(self.change_window)
+        self.submit.move(288, 481)
+
+    def set_style(self):
+        style = '''
+                #submitButton:hover:!pressed {color: white;
+                background-image: url(resources/images/submit_hover.png);
+                min-width: 107; min-height: 46;
+                border: none}
+
+                #submitButton:!hover:!pressed {color: white;
+                background-image: url(resources/images/submit_not_pressed.png);
+                min-width: 107; min-height: 46;
+                border: none}
+
+                #submitButton:hover:pressed {color: white;
+                background-image: url(resources/images/submit_pressed.png);
+                min-width: 107; min-height: 46;
+                border: none}
+                '''
+        return style
+
+    def change_window(self):
+        pass
