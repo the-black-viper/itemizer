@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from utils import fontutils as font
 from popup_choice import PopupWidget
+from detail_window import DetailWindow
 
 
 class UI(QMainWindow):
@@ -32,10 +33,12 @@ class UI(QMainWindow):
         # Create window widgets
         main_window = MainWindow(self)
         popup_window = PopupWidget(self)
+        detail_window = DetailWindow(self)
 
         # Add the main window widget to the stack
         self.stacked_layout.addWidget(main_window)
         self.stacked_layout.addWidget(popup_window)
+        self.stacked_layout.addWidget(detail_window)
 
     def change_window(self):
         self.stacked_layout.setCurrentIndex(1)

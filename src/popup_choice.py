@@ -8,6 +8,7 @@ from utils import fontutils as font
 class PopupWidget(QWidget):
     def __init__(self, main):
         super().__init__()
+        self.parent = main
         # Enable styling and set background
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("popup")
@@ -23,6 +24,7 @@ class PopupWidget(QWidget):
         self.manual_button.setFont(font.set_font('Roboto', size=15, face='Medium'))
         self.manual_button.setObjectName("manualButton")
         self.manual_button.setStyleSheet(self.manual_button_syle())
+        self.manual_button.clicked.connect(self.change_window)
         self.manual_button.move(260, 350)
 
     def create_auto_button(self):
@@ -69,3 +71,7 @@ class PopupWidget(QWidget):
                 border: none}
                 '''
         return style
+
+    def change_window(self):
+        print(self.parent.stacked_layout.currentIndex())
+        self.parent.stacked_layout.setCurrentIndex(2)
