@@ -3,13 +3,13 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from utils import fontutils as font
-
+from popup_choice import PopupWidget
 
 class UI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main Window")
-        main_window = MainWindow(self)
+        
         # Set dimensions and fix scaling
         width, height = 480, 720
         self.setFixedSize(width, height)
@@ -28,8 +28,16 @@ class UI(QMainWindow):
         self.central_widget.setLayout(self.stacked_layout)
         self.setCentralWidget(self.central_widget)
 
+        # Create window widgets
+        main_window = MainWindow(self)
+        popup_window = PopupWidget(self)
+
         # Add the main window widget to the stack
         self.stacked_layout.addWidget(main_window)
+        self.stacked_layout.addWidget(popup_window)
+
+    def change_window(self):
+        self.stacked_layout.setCurrentIndex(1)
 
 
 class MainWindow(QWidget):
@@ -44,7 +52,7 @@ class MainWindow(QWidget):
         # Create start button
         self.startbtn = QPushButton("START", self)
         self.startbtn.setFont(font.set_font('Roboto', 15))
-        self.startbtn.clicked.connect(QApplication.instance().quit)
+        self.startbtn.clicked.connect(main.change_window)
         self.startbtn.setObjectName("start")
         self.startbtn.installEventFilter(self)
         self.startbtn.setStyleSheet('''#start{color: white;
