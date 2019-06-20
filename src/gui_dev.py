@@ -52,27 +52,31 @@ class MainWindow(QWidget):
 
         # Create start button
         self.startbtn = QPushButton("START", self)
-        self.startbtn.setFont(font.set_font('Roboto', 15, 'Regular'))
+        self.startbtn.setFont(font.set_font('Roboto', 16, 'Medium'))
         self.startbtn.clicked.connect(main.change_window)
         self.startbtn.setObjectName("start")
         self.startbtn.installEventFilter(self)
-        self.startbtn.setStyleSheet('''#start{color: white;
-                                    background-color: rgb(11, 91, 127);}''')
+        self.startbtn.setStyleSheet(self.button_stlye())
         self.startbtn.move(210, 405)
 
-    def eventFilter(self, obj, event):
-        if obj == self.startbtn and event.type() == QEvent.HoverEnter:
-            self.startbtn.setStyleSheet('''#start:hover{color: white;
-                                     background-color: rgb(23, 121, 164);}''')
-            print("On hover")
-        elif obj == self.startbtn and event.type() == QEvent.HoverLeave:
-            print("Not hovered")
-            self.startbtn.setStyleSheet('''#start:!hover{color: white;
-                                     background-color: rgb(11, 91, 127);}''')
-        elif obj == self.startbtn and event.type() == QEvent.MouseButtonPress:
-            self.startbtn.setStyleSheet('''#start:hover{color: yellow;
-                                     background-color: rgb(23, 121, 164);}''')
-        return super().eventFilter(obj, event)
+    def button_stlye(self):
+        style = '''
+                #start:hover:!pressed {color: white;
+                background-image: url(resources/images/blue_button_hover.png);
+                min-width: 90; min-height: 39;
+                border: none}
+
+                #start:!hover:!pressed {color: white;
+                background-image: url(resources/images/blue_button_not_pressed.png);
+                min-width: 90; min-height: 39;
+                border: none}
+
+                #start:hover:pressed {color: white;
+                background-image: url(resources/images/blue_button_pressed.png);
+                min-width: 90; min-height: 39;
+                border: none}
+                '''
+        return style
 
 
 def main():
