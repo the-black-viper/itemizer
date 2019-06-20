@@ -5,6 +5,7 @@ from PyQt5.QtCore import *
 from utils import fontutils as font
 from popup_choice import PopupWidget
 
+
 class UI(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -51,7 +52,7 @@ class MainWindow(QWidget):
 
         # Create start button
         self.startbtn = QPushButton("START", self)
-        self.startbtn.setFont(font.set_font('Roboto', 15))
+        self.startbtn.setFont(font.set_font('Roboto', 15, 'Regular'))
         self.startbtn.clicked.connect(main.change_window)
         self.startbtn.setObjectName("start")
         self.startbtn.installEventFilter(self)
@@ -68,6 +69,9 @@ class MainWindow(QWidget):
             print("Not hovered")
             self.startbtn.setStyleSheet('''#start:!hover{color: white;
                                      background-color: rgb(11, 91, 127);}''')
+        elif obj == self.startbtn and event.type() == QEvent.MouseButtonPress:
+            self.startbtn.setStyleSheet('''#start:hover{color: yellow;
+                                     background-color: rgb(23, 121, 164);}''')
         return super().eventFilter(obj, event)
 
 
