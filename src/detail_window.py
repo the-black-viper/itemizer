@@ -114,5 +114,5 @@ class DetailWindow(QWidget):
         pass
 
     def change_window(self):
-        print('Changed Window')
-        # pass
+        print('Current Window:', self.parent.stacked_layout.currentIndex())
+        self.parent.stacked_layout.setCurrentIndex(3)
