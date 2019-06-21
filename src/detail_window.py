@@ -83,6 +83,7 @@ class DetailWindow(QWidget):
         self.submit.setObjectName("submitButton")
         self.submit.setStyleSheet(self.submit_button_style())
         self.submit.clicked.connect(self.change_window)
+        self.submit.setAutoDefault(True)
         self.submit.move(288, 481)
 
     def eventFilter(self, obj, event):
