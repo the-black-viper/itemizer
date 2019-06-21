@@ -73,5 +73,5 @@ class PopupWidget(QWidget):
         return style
 
     def change_window(self):
-        print(self.parent.stacked_layout.currentIndex())
+        print('Current Window:', self.parent.stacked_layout.currentIndex())
         self.parent.stacked_layout.setCurrentIndex(2)

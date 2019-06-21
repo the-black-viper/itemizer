@@ -14,7 +14,7 @@ class DetailWindow(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("detail")
         self.setStyleSheet('''#detail{background-image:
-                        url(resources/images/detail_window.jpg)}''')
+                        url(resources/images/detail_bg.jpg)}''')
         self.installEventFilter(self)
 
         # Create the line edits
@@ -22,6 +22,16 @@ class DetailWindow(QWidget):
         self.examinee_edit = self.create_line_edit(322, 264, 3)
         self.question_edit = self.create_line_edit(322, 332, 3)
         self.choices_edit = self.create_line_edit(322, 397, 3)
+
+        # Create labels
+        self.examinee_label = self.create_labels(84, 270, "Number of Examinees")
+        self.question_label = self.create_labels(84, 342, "Number of Questions")
+        self.choices_label = self.create_labels(84, 404, "Number of Choices")
+
+        self.prompt1 = self.prompt_label(86, 294)
+        self.prompt2 = self.prompt_label(86, 364)
+        self.prompt3 = self.prompt_label(86, 427)
+
         # Create the submit button
         self.create_submit_button()
 
@@ -51,6 +61,22 @@ class DetailWindow(QWidget):
 
         return line_edit
 
+    def create_labels(self, x, y, text_label):
+        '''Returns a set of labels'''
+        label = QLabel(text_label, self)
+        label.setFont(font.set_font('Roboto', size=16, face='Medium'))
+        label.setStyleSheet('color: #094763; font-weight: bold')
+        label.move(x, y)
+        return label
+
+    def prompt_label(self, x, y):
+        '''Returns the label prompt when invalid input is detected'''
+        label = QLabel('! Input must be a number from 0 - 999', self)
+        label.setFont(font.set_font('Roboto', size=10, face='Medium'))
+        label.setStyleSheet('color: rgba(194, 11, 11, 0)')
+        label.move(x, y)
+        return label
+
     def create_submit_button(self):
         self.submit = QPushButton("Submit", self)
         self.submit.setFont(font.set_font('Roboto', size=18, face='Medium'))
@@ -67,7 +93,6 @@ class DetailWindow(QWidget):
 
     def submit_button_style(self):
         style = '''
-
                 #submitButton:hover:pressed:!focus {color: white;
                 background-image: url(resources/images/submit_pressed.png);
                 min-width: 107; min-height: 46;
@@ -110,9 +135,29 @@ class DetailWindow(QWidget):
                 '''
         return style
 
-    def validate_input(self):
-        pass
+    def _input_prompt(self, label_list, line_edit_list, prompt_list):
+        '''Updates UI by turning on/off prompts'''
+
+        for obj in zip(label_list, line_edit_list, prompt_list):
+            # prompt_flag.append((obj[0].pos(), obj[1].hasAcceptableInput()))
+            if not obj[1].hasAcceptableInput():
+                obj[0].setStyleSheet('color: #dc0303; font-weight: bold;')
+                obj[1].setStyleSheet('border: 2px solid red;')
+                obj[2].setStyleSheet('color: rgba(194, 11, 11, 255)')
+                
+            else:
+                obj[0].setStyleSheet('color: #094763; font-weight: bold;')
+                obj[1].setStyleSheet('border: 1px;')
+                obj[2].setStyleSheet('color: rgba(194, 11, 11, 0)')
+
 
     def change_window(self):
         print('Current Window:', self.parent.stacked_layout.currentIndex())
-        self.parent.stacked_layout.setCurrentIndex(3)
+        line_edit_list = (self.examinee_edit, self.question_edit, self.choices_edit)
+        label_list = (self.examinee_label, self.question_label, self.choices_label)
+        prompt_list = (self.prompt1, self.prompt2, self.prompt3)
+
+        if self.examinee_edit.hasAcceptableInput() and self.question_edit.hasAcceptableInput() and self.choices_edit.hasAcceptableInput():
+            self.parent.stacked_layout.setCurrentIndex(3)
+        else:
+            self._input_prompt(label_list, line_edit_list, prompt_list)
