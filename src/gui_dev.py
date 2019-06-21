@@ -59,6 +59,7 @@ class MainWindow(QWidget):
         # Create start button
         self.startbtn = QPushButton("START", self)
         self.startbtn.setFont(font.set_font('Roboto', 16, 'Medium'))
+        self.startbtn.isDefault()
         self.startbtn.clicked.connect(main.change_window)
         self.startbtn.setObjectName("start")
         self.startbtn.installEventFilter(self)
